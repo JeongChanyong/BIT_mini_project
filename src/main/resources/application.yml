@@ -1,0 +1,50 @@
+
+# 서버 포트 설정
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+# view 리졸버 설정 src/main/webapp 폴더가 디폴트 경로 prefix로 하위 경로 까지 지정을 해주면 spring에서 view를 반환해 준다
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  # DB 설정
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+
+  # JPA 설정
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+
+  # spring security ID 및 비밀번호 설정
+
+  security:
+    user:
+      name: test
+      password: 1234
+
+# 파일 경로
+
+file:
+  path: C:\Users\JeongChanYong\Desktop\BIT\workspace\all4gram/upload
