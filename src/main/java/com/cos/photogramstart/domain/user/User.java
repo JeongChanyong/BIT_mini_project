@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // 번호 증가 전략, postgresSQL 전략은 SEQUENCE 사용
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 번호 증가 전략, postgresSQL 전략은 SEQUENCE 사용
     private int id; // pk 지정
 
     @Column(unique = true, length = 20) // 해당 컬럼은 unique 속성을 통해 중복을 방지하고 varchar(20) 지정

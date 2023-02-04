@@ -27,11 +27,12 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
 
+  # 사진 전송 허용 및 크기 제한
   servlet:
     multipart:
       enabled: true
@@ -47,4 +48,4 @@ spring:
 # 파일 경로
 
 file:
-  path: C:\Users\JeongChanYong\Desktop\BIT\workspace\all4gram/upload
+  path: C:/Users/JeongChanYong/Desktop/BIT/workspace/upload/

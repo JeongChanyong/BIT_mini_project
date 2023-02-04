@@ -22,12 +22,14 @@ import java.time.LocalDateTime;
          */
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "subscribe_uk",
-                        columnNames = {"fromuserid","touserid"}
+                        name = "subscribe_uk", // Unique 제약조건 이름
+                        columnNames = { // Unique 제약조건을 적용할 컬럼명
+                                "fromuserid",
+                                "touserid"
+                        }
 
                 )
         }
-//// TODO: 2023-02-03 38강의 부터 시작 해야하고, 깃허브 올리는 법 확인...
 )
 public class Subscribe {
 
@@ -35,17 +37,18 @@ public class Subscribe {
      * 구독 클래스
      */
 
+    // TODO: 2023-02-04 11:47 번호 증가 전력 AOTO 로 진행하면 구독 하기 api not null 제약조건 위배..왜지? IDENTITY 변경 후동작
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
     @JoinColumn(name = "fromuserid")
     @ManyToOne
     private User fromUser; // 구독 하는 유저
+
     @JoinColumn(name = "touserid")
     @ManyToOne
     private User toUser; // 구독 받는 유저
-
 
     private LocalDateTime createDate; //
 

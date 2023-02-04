@@ -1,6 +1,7 @@
 package com.cos.photogramstart.handler;
 
 import com.cos.photogramstart.dto.CMRespDto;
+import com.cos.photogramstart.handler.ex.CustomApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+
 
 
 @Slf4j
@@ -28,12 +29,24 @@ public class ControllerExceptionHandler {
          * Android 통신 - CmRespDto
          */
 
-        return Script.back(e.getErrorMap().toString()); // 사용자에게 에러창을 js로 보냄
+        if (e.getErrorMap() == null) {
+            return Script.back(e.getMessage());
+        } else {
+            return Script.back(e.getErrorMap().toString());// 사용자에게 에러창을 js로 보냄
+        }
+
+
     }
     // Ajax
     @ExceptionHandler(CustomValidationApiException.class) //  예외가 발생 하면 예외를 해당 함수에서 처리 하고 메시지를 화면에 보여줌
     public ResponseEntity<CMRespDto<?>> validationApiException(CustomValidationApiException e){
         log.info("실행 여부 확인");
         return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomApiException.class) // 구독 오류
+    public ResponseEntity<CMRespDto<?>>  apiException(CustomApiException e){
+        log.info("실행 여부 확인");
+        return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 }

@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); // 시큐리티 설정을 하게 되면 기본적으로 csrf_token 기능이 동작 되는데...이 기능을 끔
         http.authorizeRequests()
                 // 해당 경로로 클라이언트가 접속을 하면 인증이 필요
-                .antMatchers("/", "/user/**", "/image/**", "subscribe/**", "/comment/**").authenticated()
+                .antMatchers("/", "/user/**", "/image/**", "subscribe/**", "/comment/**","/api/**").authenticated()
                 .anyRequest().permitAll() // 그 외 다른 경로로 접속은 허용
                 .and()
                 .formLogin() // 로그인 방식
