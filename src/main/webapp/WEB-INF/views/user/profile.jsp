@@ -26,7 +26,7 @@
 		<!--유저정보 및 사진등록 구독하기-->
 		<div class="profile-right">
 			<div class="name-group">
-				<h2>AllFORLAND</h2>
+				<h2>${user.name}</h2>
 
 				<button class="cta" onclick="location.href='/image/upload'">사진등록</button>
 				<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
@@ -39,13 +39,13 @@
 				<ul>
 					<li><a href=""> 게시물<span>3</span>
 					</a></li>
-					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>2</span>
+					<li><a href="javascript:subscribeInfoModalOpen();">구독정보<span>2</span>
 					</a></li>
 				</ul>
 			</div>
 			<div class="state">
-				<h4>자기 소개입니다.</h4>
-				<h3>http://www.all4land.com/</h3>
+				<h4>${user.bio}</h4>
+				<h3>${user.website}</h3>
 			</div>
 		</div>
 		<!--유저정보 및 사진등록 구독하기-->
@@ -63,36 +63,18 @@
 			<div class="tab-1-content-inner">
 
 				<!--아이템들-->
-
-
-				<div class="img-box">
-					<a href=""> <img src="/images/home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+				<c:forEach var="image" items="${user.images}"> <!--EL 표현식에서 변수정을 적으면 get 함수 자동 호출-->
+					<div class="img-box">
+						<a href=""> <img src="/upload/${image.postImageUrl}" />
 						</a>
+						<div class="comment">
+							<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+							</a>
+						</div>
 					</div>
-				</div>
-
-				<div class="img-box">
-					<a href=""> <img src="/images/home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
-						</a>
-					</div>
-				</div>
-
-				<div class="img-box">
-					<a href=""> <img src="/images/home.jpg" />
-					</a>
-					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
-						</a>
-					</div>
-				</div>
-
+				</c:forEach>
 				<!--아이템들end-->
+
 			</div>
 		</div>
 	</div>

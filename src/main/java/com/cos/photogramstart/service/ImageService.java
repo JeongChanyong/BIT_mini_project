@@ -40,16 +40,11 @@ public class ImageService {
             e.printStackTrace();
         }
 
-        // image 테이블 저장
-
-        /**
-         *
+         /**
+         * 이미지 테이블 저장
          * Image 객체와 imageUploadDto type 달라서 저장할 수가 없다.
          */
         Image image = imageUploadDto.toEntity(imageFileName, principalDetails.getUser());
-        Image imageEntity = imageRepository.save(image);
-
-        System.out.println("imageEntity = " + imageEntity);
-
+        imageRepository.save(image);
     }
 }

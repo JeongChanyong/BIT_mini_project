@@ -1,9 +1,11 @@
 package com.cos.photogramstart.domain.user;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.*;
 
+import com.cos.photogramstart.domain.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +44,18 @@ public class User {
     private String profileImageUrl;; // 프로필 사진
 
     private String role; // 권한
+
+    /**
+     * Image Object 양방향 맵핑 / 한명의 유저는 사진을 여러개 올릴수 있기에 OneToMany
+     * 연관관계의 주인은 지금 page의 User 가 아니고 Image 테이블의 user 이다. mappedBy = "user"
+     * User 테이블 생성시 Image 테이블을 만들지 않겠다.
+     * User Object 를 select 할 때 에는 해당 userid 로 등록된 모든 image 를 가져와야 한다.
+     *
+     * Lazy : user 정보를 select 할 때, 해당 userid 로 등록된 모든 image 들을 가져오지 않겠다. 대신 getImages()(필드값)  함수의 image 들이 호출 하면 가져온다.
+     * EAGER : user 정보를 select 할 때, 해당 userid 로 등록된 모든 image JOIN 해서 가져 오겠다.
+     */
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY ) // 연관관계의 주인이 아님. 테이블의 컬럼 생성 금지
+    private List<Image> images;
 
     private LocalDateTime createDate; //
 

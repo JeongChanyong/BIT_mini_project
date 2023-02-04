@@ -36,7 +36,7 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 2MB
+      max-file-size: 5MB
 
   # spring security ID 및 비밀번호 설정
 
