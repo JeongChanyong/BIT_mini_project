@@ -2,6 +2,7 @@ package com.cos.photogramstart.controller;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.dto.users.UserProfileDto;
 import com.cos.photogramstart.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +18,18 @@ public class UsersController {
 
     private final UsersService usersService;
 
-    @GetMapping("user/{id}")
-    public String profile(@PathVariable Integer id, Model model){
-        User userEntity = usersService.userProfile(id); // url id 가 있으면 해당 로직 수행하고 반환
-        model.addAttribute("user", userEntity);
+    @GetMapping("user/{pageUserId}")
+    public String profile(@PathVariable int pageUserId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        UserProfileDto userProfileDto = usersService.userProfile(pageUserId, principalDetails.getUser().getId()); // url id 가 있으면 해당 로직 수행하고 반환
+        model.addAttribute("dto", userProfileDto);
         return "user/profile";
     }
 
     @GetMapping("user/{id}/update") // user/id(pk)/update
-    public String update(@PathVariable Integer id, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String update(@PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails){
         return "user/update";
+
+
     }
     /**
      * @AuthenticationPrincipal

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.cos.photogramstart.domain.image.Image;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class User {
      * EAGER : user 정보를 select 할 때, 해당 userid 로 등록된 모든 image JOIN 해서 가져 오겠다.
      */
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY ) // 연관관계의 주인이 아님. 테이블의 컬럼 생성 금지
+    @JsonIgnoreProperties({"user"})
     private List<Image> images;
 
     private LocalDateTime createDate; //
@@ -65,21 +67,21 @@ public class User {
         this.createDate = LocalDateTime.now();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", website='" + website + '\'' +
-                ", bio='" + bio + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", gender='" + gender + '\'' +
-                ", profileImageUrl='" + profileImageUrl + '\'' +
-                ", role='" + role + '\'' +
-                ", createDate=" + createDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", name='" + name + '\'' +
+//                ", website='" + website + '\'' +
+//                ", bio='" + bio + '\'' +
+//                ", email='" + email + '\'' +
+//                ", phone='" + phone + '\'' +
+//                ", gender='" + gender + '\'' +
+//                ", profileImageUrl='" + profileImageUrl + '\'' +
+//                ", role='" + role + '\'' +
+//                ", createDate=" + createDate +
+//                '}';
+//    }
 }

@@ -3,19 +3,26 @@ package com.cos.photogramstart.api;
 import com.cos.photogramstart.config.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.dto.CMRespDto;
+import com.cos.photogramstart.dto.subscribe.SubscribeDto;
 import com.cos.photogramstart.dto.users.UserUpdateDto;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
+import com.cos.photogramstart.service.SubscribeService;
 import com.cos.photogramstart.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -23,6 +30,7 @@ import java.util.Map;
 public class UsersApiController {
 
     private final UsersService usersService;
+    private final SubscribeService subscribeService;
 
     /**
      *
@@ -51,15 +59,22 @@ public class UsersApiController {
         }
     }
 
+    @GetMapping("/api/user/{pageUserId}/subscribe")
+    public ResponseEntity<?> subscribeList(@PathVariable int pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<SubscribeDto> subscribeDto = subscribeService.subscribeList(principalDetails.getUser().getId(), pageUserId);
+
+        return new ResponseEntity<>(new CMRespDto<>(1, "구독자 정보 리스트 가져오기 성공", subscribeDto),HttpStatus.OK);
+
+    }
+
+    // 회원 사진 변경
+    @PutMapping("/api/user/{principalId}/profileImageUrl")
+    public ResponseEntity<?> profileImageUrlUpdate(@PathVariable int principalId, MultipartFile profileImageFile,
+                                                   @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        User userEntity = usersService.userProfilePhoto(principalId, profileImageFile);
+        principalDetails.setUser(userEntity); // 세션 변경
+        return new ResponseEntity<>(new CMRespDto<>(1,"프로필 사진 변경 성공", null),HttpStatus.OK);
+    }
 
 
-
-//    @PutMapping(value = "api/user/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-//    public CMRespDto<?> update(@RequestBody @PathVariable int id, UserUpdateDto userUpdateDto,
-//                        @AuthenticationPrincipal PrincipalDetails principalDetails){
-//
-//        User userEntity = usersService.회원수정(id, userUpdateDto.toEntity());
-//        principalDetails.setUser(userEntity);
-//        return new CMRespDto<>(1,"회원수정 완료", userEntity);
-//    }
 }
